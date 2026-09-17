@@ -1,0 +1,50 @@
+version: '3'
+silent: true
+
+tasks:
+  default:
+    cmds: [task --list]
+
+  # Development
+  dev:
+    desc: "Start development server"
+    cmds:
+      - echo "Starting dev server..."
+
+  build:
+    desc: "Build project"
+    cmds:
+      - echo "Building..."
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - echo "Running tests..."
+
+  # Code Quality
+  lint:
+    desc: "Lint code"
+    cmds:
+      - echo "Linting..."
+
+  format:
+    desc: "Format code"
+    cmds:
+      - echo "Formatting..."
+
+  # Docker
+  docker:build:
+    desc: "Build Docker image"
+    cmds:
+      - docker build -t {{.PROJECT_NAME}}:latest .
+
+  docker:run:
+    desc: "Run Docker container"
+    cmds:
+      - docker run -it --rm {{.PROJECT_NAME}}:latest
+
+  # Cleanup
+  clean:
+    desc: "Clean build artifacts"
+    cmds:
+      - rm -rf dist/ build/ __pycache__/ .pytest_cache/
