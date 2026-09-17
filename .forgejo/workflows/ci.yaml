@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ vars.RUNNER || 'ubuntu-22.04' }}
+    container:
+      image: catthehacker/ubuntu:act-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Show info
+        run: |
+          echo "Repository: ${{ forgejo.repository }}"
+          echo "Branch: ${{ forgejo.ref_name }}"
+          echo "Commit: ${{ forgejo.sha }}"
