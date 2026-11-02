@@ -1,0 +1,24 @@
+name: Mutation testing policy
+
+on:
+  issues:
+    types: [labeled, unlabeled]
+  pull_request_target:
+    types: [opened, synchronize, reopened, labeled, unlabeled, edited]
+
+jobs:
+  mutation-gate:
+    runs-on: ${{ vars.RUNNER || 'ubuntu-22.04' }}
+    timeout-minutes: 45
+    container:
+      image: catthehacker/ubuntu:act-latest
+    steps:
+      # The versioned central action owns classification, isolation, engines
+      # and evidence verification. No mutation implementation is distributed.
+      - uses: https://github.com/didlawowo/workflow-ci/.forgejo/actions/mutation-policy@v1.21.4
+        with:
+          api-url: ${{ forgejo.api_url }}
+          server-url: ${{ forgejo.server_url }}
+          repository: ${{ forgejo.repository }}
+          token: ${{ forgejo.token }}
+          event-path: ${{ forgejo.event_path }}
